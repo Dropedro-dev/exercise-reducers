@@ -12,8 +12,24 @@ const Page =()=> {
     dispatch({
       type: 'add',
       payload: {
-        text: addField
+        text: addField.trim()
       }
+    })
+    setAddField('');
+  }
+
+  const handleCheck =(id:number)=> {
+    dispatch({
+      type: 'toggleDone',
+      payload: { id }
+    })
+
+  }
+
+  const handleRemoveClick = (id: number)=> {
+    dispatch({
+      type: 'remove',
+      payload: {id}
     })
   }
 
@@ -30,9 +46,30 @@ const Page =()=> {
         />
         <button className="p-4"onClick={handleAddButton}>ADD</button>
       </div>
-      <ul>
+      <ul className="max-w-2xl mx-auto">
         {list.map(item=>(
-          <li key={item.id}>{item.id}</li>
+          <li key={item.id} 
+            className="flex items-center p-3 my-3 border-b border-gray-700"
+          >
+            <input 
+              type="checkbox" 
+              className="w-6 h-6 mr-4"
+              defaultChecked={item.done}
+              onClick={() => handleCheck(item.id)}
+            />
+            <p className="flex-1 text-lg">{item.text}</p>
+            <button 
+              className="mx-4 hover:text-blue-300"
+            >
+              Edit
+            </button>
+            <button 
+              className="mx-4 hover:text-blue-300"
+              onClick={()=>handleRemoveClick(item.id)}
+            >
+              excluir
+            </button>
+          </li>
         ))}
       </ul>
     </div>
